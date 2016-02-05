@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a7fa997_9cf02dcb",
+        "filename": "btif/src/btif_media_task.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2526,
+      "author": {
+        "id": 1000043
+      },
+      "writtenOn": "2016-02-05T13:32:24Z",
+      "side": 1,
+      "message": "Wops Should be\n\n#ifndef BTA_AV_SPLIT_A2DP_ENABLED\nspace\nAPPL_TRACE_IMP(\"%s is_tx_timer: %d\", __func__, btif_media_cb.is_tx_timer);\nspace\nconst bool send_ack \u003d (btif_media_cb.is_tx_timer !\u003d FALSE);",
+      "range": {
+        "startLine": 2526,
+        "startChar": 0,
+        "endLine": 2526,
+        "endChar": 7
+      },
+      "revId": "d0ec48a5c79a1ef3892e787eca317e7f3679ac5b",
+      "serverId": "f8201d64-d729-4630-b91d-5f8be02869f0",
+      "unresolved": false
+    }
+  ]
+}
