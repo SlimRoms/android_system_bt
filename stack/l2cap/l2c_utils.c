@@ -2619,12 +2619,14 @@ BOOLEAN l2cu_set_acl_priority (BD_ADDR bd_addr, UINT8 priority, BOOLEAN reset_af
         return (FALSE);
     }
 
+#ifndef BOARD_HAVE_BLUETOOTH_BCM
     if (p_lcb->acl_priority != priority)
     {
         p_lcb->acl_priority = priority;
         l2c_link_adjust_allocation();
     }
-
+#endif
+  
     if (BTM_IS_BRCM_CONTROLLER())
     {
         /* Called from above L2CAP through API; send VSC if changed */
@@ -2640,15 +2642,26 @@ BOOLEAN l2cu_set_acl_priority (BD_ADDR bd_addr, UINT8 priority, BOOLEAN reset_af
             UINT8_TO_STREAM  (pp, vs_param);
 
             BTM_VendorSpecificCommand (HCI_BRCM_SET_ACL_PRIORITY, HCI_BRCM_ACL_PRIORITY_PARAM_SIZE, command, NULL);
-
-            /* Adjust lmp buffer allocation for this channel if priority changed */
-            if (p_lcb->acl_priority != priority)
-            {
-                p_lcb->acl_priority = priority;
-                l2c_link_adjust_allocation();
-            }
+          #ifndef BOARD_HAVE_BLUETOOTH_BCM
+          /* Adjust lmp buffer allocation for this channel if priority changed */
+          if (p_lcb->acl_priority != priority)
+          {
+              p_lcb->acl_priority = priority;
+              l2c_link_adjust_allocation();
+          }
+          #endif
         }
     }
+
+    #ifdef BOARD_HAVE_BLUETOOTH_BCM
+    /* Adjust lmp buffer allocation for this channel if priority changed */
+    if (p_lcb->acl_priority != priority)
+    {
+        p_lcb->acl_priority = priority;
+        l2c_link_adjust_allocation();
+    }
+    #endif
+
     return(TRUE);
 }
 
